@@ -1,272 +1,298 @@
-# Campus-Project-Management-System
+# 🌟 Light Intensity PID Control System
+## Tugas Kampus: Sistem Kendali Diskrit
 
-![GitHub repo size](https://img.shields.io/github/repo-size/username/Campus-Project-Management-System)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-
-## 📚 Deskripsi Repository
-
-Repository ini berisi kumpulan **tugas dan proyek akademik** dari mahasiswa **Jurusan Teknik Elektro - Politeknik Negeri Malang (Polinema)**. Repository ini ditujukan untuk:
-
-- 🎓 **Pembelajaran**: Dokumentasi materi sistem kendali, IoT, dan embedded systems
-- 🔬 **Eksperimen**: Testing algoritma kontrol (PID, Fuzzy, dll) pada hardware
-- 📖 **Dokumentasi**: Referensi untuk adik tingkat dan kolaborasi
-- 📊 **Analisis**: Visualisasi data hasil eksperimen
+Sistem kendali cahaya berbasis ESP32 dengan sensor BH1750 dan algoritma PID diskrit. Proyek ini mendemonstrasikan implementasi kontroler PID pada sistem embedded dengan analisis data menggunakan Python.
 
 ---
 
-## 👤 Identitas Mahasiswa
+## 📚 Materi Presentasi Lengkap
 
-| Informasi | Detail |
-|-----------|--------|
-| **Nama** | [NAMA_LENGKAP_ANDA] |
-| **NIM** | [NIM_ANDA] |
-| **Kelas** | [KELAS_ANDA] |
-| **Jurusan** | Teknik Elektro - Politeknik Negeri Malang |
-| **Email** | [EMAIL_ANDA@student.polinema.ac.id](mailto:email) |
-| **GitHub** | [@username](https://github.com/username) |
+Untuk keperluan presentasi ke dosen, silakan buka dokumen lengkap di:
 
-> ⚠️ **Catatan**: Ganti informasi di atas dengan data Anda sebelum commit.
+👉 **[MATERI_PRESENTASI.md](MATERI_PRESENTASI.md)**
+
+Dokumen tersebut berisi:
+- ✅ Diagram Blok Sistem lengkap
+- ✅ Prinsip Kerja Sistem (flowchart & persamaan)
+- ✅ Diagram Blok Kontrol PID (domain s & z)
+- ✅ Data Input dan Output tabel
+- ✅ Analisis Respons Sistem (rise time, settling time, overshoot)
+- ✅ Implementasi Kode & Flowchart
+- ✅ Hasil Eksperimen & Grafik
+- ✅ Tips Presentasi & Q&A dengan Dosen
 
 ---
 
-## 📁 Daftar Proyek
+## 📋 Fitur Utama
 
-### 1. 🌟 Light PID Control - BH1750 (Versi Final)
-Implementasi **PID diskrit** untuk kontrol intensitas cahaya menggunakan sensor **BH1750** dan LED 12V.
+- ✅ **PID Controller Diskrit** dengan sampling time 200ms
+- ✅ **Anti-windup** untuk mencegah integral saturation
+- ✅ **Sensor BH1750** (I2C) untuk pengukuran lux
+- ✅ **PWM LED** sebagai aktuator (10-bit resolution)
+- ✅ **Serial Logging** format CSV untuk analisis
+- ✅ **Python Script** untuk visualisasi data real-time
+- ✅ **Struktur Minimalis** - semua logika dalam 1 file
 
-| Fitur | Deskripsi |
-|-------|-----------|
-| **Sensor** | BH1750 (Digital I2C, 1-65535 lux) |
-| **Aktuator** | LED 12V via MOSFET PWM |
-| **Sampling Time** | 200ms |
-| **Algoritma** | Discrete PID dengan anti-windup |
-| **Analisis** | Python script untuk logging & plotting |
+---
 
-📂 **Lokasi**: [`light_pid_simple/`](light_pid_simple/)
+## 📁 Struktur Folder
 
-```bash
-cd light_pid_simple
-pio run --target upload
-python scripts/plot_lux.py --port /dev/ttyUSB0 --duration 60
+```
+light_pid_simple/
+├── src/
+│   └── main.cpp          # Kode utama: PID, sensor, PWM, logging
+├── scripts/
+│   ├── plot_lux.py       # Python: serial → CSV + grafik
+│   └── requirements.txt  # Dependencies Python
+├── data/
+│   ├── report_*.csv      # Data hasil eksperimen
+│   └── report_*.png      # Grafik visualisasi
+├── platformio.ini        # Konfigurasi PlatformIO
+├── README.md             # Dokumentasi ini
+└── .gitignore
 ```
 
-📄 **File Penting**:
-- `src/main.cpp` - Kode ESP32 dengan PID controller
-- `scripts/plot_lux.py` - Real-time logger & plotter
-- `MATERI_PRESENTASI.md` - Materi lengkap presentasi (diagram blok, analisis)
-- `data/sample_data.csv` - Sample data eksperimen
-
 ---
 
-### 2. ⚡ Quick Demo - LDR + LED 5V (Versi Cepat)
-Versi **demo cepat** menggunakan **LDR analog** dan **LED 5V**. Cocok untuk testing di kelas tanpa komponen mahal.
+## 🔌 Wiring Diagram
 
-| Fitur | Deskripsi |
-|-------|-----------|
-| **Sensor** | LDR + Voltage Divider (Analog ADC) |
-| **Aktuator** | LED 5V dengan resistor 220Ω |
-| **Sampling Time** | 200ms |
-| **Algoritma** | Discrete PID (sama dengan versi BH1750) |
-| **Harga** | < Rp 5.000,- |
+### Komponen yang Dibutuhkan:
+- ESP32 DevKit v1
+- Sensor BH1750 (I2C)
+- LED 12V + MOSFET (IRF540N) atau gunakan LED onboard GPIO 23
+- Resistor 220Ω (untuk LED)
 
-📂 **Lokasi**: [`quick_demo_ldr/`](quick_demo_ldr/)
+### Koneksi:
 
-```bash
-cd quick_demo_ldr
-pio run --target upload
-python scripts/plot_ldr.py --port /dev/ttyUSB0 --duration 60
+| BH1750 | ESP32 | Keterangan |
+|--------|-------|------------|
+| VCC    | 3.3V  | Power      |
+| GND    | GND   | Ground     |
+| SDA    | GPIO 21 | I2C Data |
+| SCL    | GPIO 22 | I2C Clock |
+| ADDR   | -     | Tidak terhubung (default 0x23) |
+
+| LED/MOSFET | ESP32 | Keterangan |
+|------------|-------|------------|
+| Gate (MOSFET) | GPIO 23 | PWM Control |
+| Source (MOSFET) | GND | Ground |
+| Drain (MOSFET) | LED (-) | Load |
+| LED (+) | 12V via Resistor | Power |
+
+### Diagram Skematik:
+```
+         ┌─────────────┐
+         │   ESP32     │
+         │             │
+    3.3V ├─┐       ┌───┤ GPIO 21 (SDA) ────┐
+         │ │       │   │                   │
+    GND  ├─┼───────┼───┤ GPIO 22 (SCL) ────┼─── BH1750
+         │ │       │   │                   │
+         │ └───────┘   │                   │
+         │             │ GPIO 23 (PWM)     │
+         │             └──────────┬────────┘
+         │                        │
+         │                    ┌───┴───┐
+         │                    │ 10kΩ  │ (pulldown opsional)
+         │                    └───┬───┘
+         │                        │
+         │                    Gate │
+         │                    ┌────┴────┐
+         │                    │ MOSFET  │
+         │                    │ IRF540N │
+         │              Source│         │Drain
+         └────────────────────┤         ├──────────┐
+                              │         │          │
+                             GND        │        LED (-)
+                                        │
+                                       LED (+)
+                                        │
+                                       220Ω
+                                        │
+                                       12V
 ```
 
-📄 **File Penting**:
-- `src/main.cpp` - Kode ESP32 dengan identitas mahasiswa
-- `scripts/plot_ldr.py` - Logger khusus LDR
-- `README.md` - Wiring diagram & tuning guide
-
 ---
 
-## 📊 Perbandingan Kedua Proyek
+## 🚀 Cara Menggunakan
 
-| Aspek | BH1750 (Final) | LDR (Quick Demo) |
-|-------|----------------|------------------|
-| **Akurasi** | ±5% (kalibrasi pabrik) | ±20% (tergantung suhu) |
-| **Output** | Lux (satuan nyata) | ADC value (0-4095) |
-| **Interface** | I2C (digital) | Analog (ADC) |
-| **Harga Sensor** | ~Rp 25.000 | ~Rp 2.000 |
-| **Kompleksitas** | Sedang (butuh library) | Sangat sederhana |
-| **Waktu Setup** | 15 menit | 5 menit |
-| **Cocok Untuk** | Proyek final, laporan resmi | Demo kelas, quick test |
+### 1️⃣ Install Dependencies
 
----
-
-## 🧠 Materi Pembelajaran
-
-Repository ini mencakup konsep-konsep berikut:
-
-### 1. Sistem Kendali Diskrit
-- ✅ PID controller dalam domain diskrit
-- ✅ Sampling time & efeknya terhadap stabilitas
-- ✅ Anti-windup integral
-- ✅ Analisis respons step (rise time, settling time, overshoot)
-
-### 2. Embedded Systems (ESP32)
-- ✅ PWM generation dengan LEDC
-- ✅ ADC reading & filtering
-- ✅ I2C communication (BH1750)
-- ✅ Serial communication untuk logging
-
-### 3. Analisis Data dengan Python
-- ✅ Real-time serial monitoring
-- ✅ CSV data logging
-- ✅ Plotting dengan matplotlib
-- ✅ Statistical analysis dengan pandas
-
-### 4. Dokumentasi Teknik
-- ✅ Wiring diagram
-- ✅ Block diagram sistem
-- ✅ Transfer function & matematika kontrol
-- ✅ Technical report writing
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
+**PlatformIO (VS Code Extension):**
 ```bash
-# Install Python dependencies
-pip install pyserial matplotlib pandas
-
-# Install PlatformIO (jika belum)
+# Install PlatformIO Core (opsional, jika pakai CLI)
 pip install platformio
 
-# Atau via VS Code Extension: "PlatformIO IDE"
+# Atau install extension PlatformIO di VS Code
 ```
 
-### Clone Repository
+**Python Dependencies:**
 ```bash
-git clone https://github.com/username/Campus-Project-Management-System.git
-cd Campus-Project-Management-System
+cd scripts
+pip install -r requirements.txt
 ```
 
-### Pilih Proyek
+### 2️⃣ Build & Upload Firmware
+
+**Menggunakan VS Code + PlatformIO:**
+1. Buka folder `light_pid_simple/` di VS Code
+2. Klik tombol **✓ Build** (atau `Ctrl+Alt+B`)
+3. Klik tombol **→ Upload** (atau `Ctrl+Alt+U`)
+
+**Menggunakan PlatformIO CLI:**
 ```bash
-# Versi Final (BH1750)
 cd light_pid_simple
-
-# ATAU Versi Quick Demo (LDR)
-cd quick_demo_ldr
+pio run --target upload
 ```
 
-### Upload ke ESP32
+### 3️⃣ Monitor Serial (Opsional)
+
+**Via PlatformIO:**
 ```bash
-pio run --target upload
 pio device monitor
 ```
 
-### Run Analysis
+**Via Serial Monitor lain:**
+- Baud rate: 115200
+- Port: sesuaikan (COM3 di Windows, /dev/ttyUSB0 di Linux)
+
+### 4️⃣ Jalankan Python Logger & Plotter
+
+**Windows:**
 ```bash
-python scripts/plot_*.py --port /dev/ttyUSB0 --duration 60
+python scripts/plot_lux.py --port COM3 --duration 60
+```
+
+**Linux/Mac:**
+```bash
+python3 scripts/plot_lux.py --port /dev/ttyUSB0 --duration 60
+```
+
+**Parameter:**
+- `--port`: Port serial ESP32
+- `--baud`: Baud rate (default: 115200)
+- `--duration`: Durasi rekaman dalam detik (0 = infinite)
+
+Output:
+- `data/report_YYYYMMDD_HHMMSS.csv` - Data mentah
+- `data/report_YYYYMMDD_HHMMSS.png` - Grafik visualisasi
+
+---
+
+## ⚙️ Konfigurasi PID
+
+Edit bagian `CONFIG` di `src/main.cpp`:
+
+```cpp
+// PID Parameters
+#define KP            8.0f    // Proportional gain
+#define KI            0.05f   // Integral gain
+#define KD            2.0f    // Derivative gain
+#define SETPOINT_LUX  300.0f  // Target illuminance
+#define SAMPLING_MS   200     // Sampling time (ms)
+```
+
+### 📊 Panduan Tuning PID
+
+| Masalah | Solusi | Parameter |
+|---------|--------|-----------|
+| Respons lambat | Naikkan Kp | `KP += 1.0` |
+| Error steady-state | Naikkan Ki sedikit | `KI += 0.02` |
+| Osilasi/bergetar | Turunkan Kp atau naikkan Kd | `KP -= 1.0` atau `KD += 0.5` |
+| Overshoot besar | Turunkan Ki atau naikkan Kd | `KI -= 0.01` atau `KD += 0.5` |
+
+**Metode Tuning Manual:**
+1. Set `KI = 0`, `KD = 0`
+2. Naikkan `KP` sampai sistem mulai berosilasi
+3. Turunkan `KP` sekitar 50% dari nilai osilasi
+4. Tambahkan `KI` perlahan untuk menghilangkan error steady-state
+5. Tambahkan `KD` untuk mengurangi overshoot
+
+---
+
+## 📈 Contoh Output
+
+### Format Serial (CSV):
+```csv
+time_ms,setpoint_lux,actual_lux,pwm_duty,error
+0,300.0,50.2,850,+249.8
+200,300.0,120.5,720,+179.5
+400,300.0,195.3,580,+104.7
+600,300.0,250.8,420,+49.2
+800,300.0,285.6,310,+14.4
+1000,300.0,298.2,285,+1.8
+```
+
+### Grafik yang Dihasilkan:
+- **Plot Atas**: Lux aktual vs setpoint vs waktu
+- **Plot Bawah**: PWM duty cycle & error vs waktu
+
+![Contoh Grafik](data/sample_output.png)
+
+---
+
+## 🔍 Analisis Sistem Kendali Diskrit
+
+### Persamaan PID Diskrit:
+```
+u(k) = Kp·e(k) + Ki·Σe(k)·Δt + Kd·[e(k)-e(k-1)]/Δt
+```
+
+Dimana:
+- `u(k)` = Output PWM pada sampling ke-k
+- `e(k)` = Error (setpoint - measurement)
+- `Δt` = Sampling time (0.2 detik)
+
+### Spesifikasi Sistem:
+- **Sampling Time**: 200 ms (5 Hz)
+- **PWM Resolution**: 10-bit (0-1023)
+- **PWM Frequency**: 5 kHz
+- **Anti-windup**: ±500 (integral clamp)
+
+---
+
+## 🧪 Verifikasi & Testing
+
+### Compile Test:
+```bash
+cd light_pid_simple
+pio run
+```
+
+### Python Script Test (dengan sample data):
+```bash
+python scripts/plot_lux.py --port dummy --duration 0
 ```
 
 ---
 
-## 📂 Struktur Repository
+## 📝 Catatan Penting
 
-```
-Campus-Project-Management-System/
-├── README.md                   # 📘 Dokumen utama (file ini)
-├── .gitignore                  # Ignore files
-│
-├── light_pid_simple/           # 🌟 PROYEK FINAL (BH1750)
-│   ├── src/main.cpp            # PID controller + BH1750
-│   ├── scripts/
-│   │   ├── plot_lux.py         # Python logger
-│   │   ├── test_with_sample_data.py
-│   │   └── requirements.txt
-│   ├── data/
-│   │   ├── sample_data.csv     # Sample data
-│   │   └── sample_output.png   # Sample grafik
-│   ├── MATERI_PRESENTASI.md    # 📚 Materi presentasi lengkap
-│   ├── platformio.ini
-│   └── README.md
-│
-└── quick_demo_ldr/             # ⚡ QUICK DEMO (LDR)
-    ├── src/main.cpp            # PID controller + LDR
-    ├── scripts/
-    │   ├── plot_ldr.py         # Python logger untuk LDR
-    │   └── requirements.txt
-    ├── data/                   # Output data eksperimen
-    ├── platformio.ini
-    └── README.md
-```
+1. **Kalibrasi Sensor**: BH1750 mungkin perlu kalibrasi ulang jika pembacaan tidak akurat
+2. **Ambient Light**: Tes di ruangan dengan cahaya terkontrol untuk hasil optimal
+3. **PWM Frequency**: 5 kHz dipilih untuk menghindari flicker pada kamera
+4. **Safety**: Pastikan MOSFET heatsink cukup untuk LED daya tinggi
 
 ---
 
-## 📝 Log Aktivitas Repository
+## 🎯 Kriteria Penilaian
 
-| Tanggal | Aktivitas | Deskripsi |
-|---------|-----------|-----------|
-| 2024-01-XX | 📦 Initial commit | Setup struktur repository |
-| 2024-01-XX | ✨ Add BH1750 project | Implementasi PID dengan sensor BH1750 |
-| 2024-01-XX | 📚 Add presentation material | Materi presentasi lengkap |
-| 2024-01-XX | ⚡ Add LDR quick demo | Versi demo cepat dengan LDR |
-| 2024-01-XX | 🔄 Update README | Penambahan identitas & dokumentasi |
-
----
-
-## 🎯 Cara Menggunakan Repository Ini
-
-### Untuk Mahasiswa
-1. **Clone** repository ini
-2. **Ganti identitas** di setiap `src/main.cpp`
-3. **Pelajari** kode dan materi presentasi
-4. **Test** dengan hardware (pilih versi sesuai kebutuhan)
-5. **Analisis** hasil dengan Python script
-6. **Dokumentasikan** hasil eksperimen Anda
-
-### Untuk Dosen/Asisten
-1. Review kode di `src/main.cpp` untuk verifikasi implementasi PID
-2. Cek data CSV hasil eksperimen di folder `data/`
-3. Evaluasi grafik respons sistem
-4. Gunakan `MATERI_PRESENTASI.md` sebagai panduan penilaian
-
----
-
-## ❓ FAQ
-
-**Q: Mana yang harus saya gunakan, BH1750 atau LDR?**  
-A: Gunakan **LDR** untuk demo cepat di kelas atau jika budget terbatas. Gunakan **BH1750** untuk proyek final dan laporan resmi karena akurasinya lebih tinggi.
-
-**Q: Bagaimana cara tuning PID?**  
-A: Lihat section "Tuning PID" di README masing-masing proyek. Mulai dengan Kp sedang, Ki kecil, Kd sedang. Naikkan Ki jika ada steady-state error, turunkan Kp jika osilasi.
-
-**Q: Apakah bisa dijalankan di ESP8266?**  
-A: Ya, dengan modifikasi minor. ESP8266 juga memiliki PWM dan ADC, tapi resolusi ADC hanya 10-bit (0-1023).
-
-**Q: Bagaimana format pengumpulan tugas?**  
-A: Kumpulkan:
-- File `src/main.cpp` yang sudah diedit dengan identitas Anda
-- Data CSV hasil eksperimen (minimal 60 detik recording)
-- Grafik PNG hasil plotting
-- Foto wiring/setup hardware
-- Laporan singkat (max 3 halaman) analisis respons sistem
-
----
-
-## 📞 Kontak
-
-Jika ada pertanyaan, silakan hubungi:
-
-- **Email**: [EMAIL_ANDA@student.polinema.ac.id](mailto:email)
-- **GitHub Issues**: [Buka issue baru](https://github.com/username/Campus-Project-Management-System/issues)
+| Aspek | Bobot | File Bukti |
+|-------|-------|------------|
+| Implementasi PID | 30% | `src/main.cpp` |
+| Akuisisi Data | 20% | `scripts/plot_lux.py` |
+| Analisis & Visualisasi | 25% | `data/*.csv`, `data/*.png` |
+| Dokumentasi | 15% | `README.md` |
+| Testing & Validasi | 10% | CI/CD workflow |
 
 ---
 
 ## 📄 License
 
-MIT License - See [LICENSE](LICENSE) file for details.
+Proyek ini dibuat untuk tujuan edukasi (Tugas Kampus Sistem Kendali Diskrit).
 
 ---
 
-**© 2024 - Politeknik Negeri Malang - Jurusan Teknik Elektro**
+## 👨‍💻 Kontributor
 
-*"Knowledge grows when shared"* 🌱
+Dibuat dengan ❤️ untuk demonstrasi sistem kendali diskrit.
