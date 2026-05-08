@@ -5,6 +5,24 @@ Sistem kendali cahaya berbasis ESP32 dengan sensor BH1750 dan algoritma PID disk
 
 ---
 
+## 📚 Materi Presentasi Lengkap
+
+Untuk keperluan presentasi ke dosen, silakan buka dokumen lengkap di:
+
+👉 **[MATERI_PRESENTASI.md](MATERI_PRESENTASI.md)**
+
+Dokumen tersebut berisi:
+- ✅ Diagram Blok Sistem lengkap
+- ✅ Prinsip Kerja Sistem (flowchart & persamaan)
+- ✅ Diagram Blok Kontrol PID (domain s & z)
+- ✅ Data Input dan Output tabel
+- ✅ Analisis Respons Sistem (rise time, settling time, overshoot)
+- ✅ Implementasi Kode & Flowchart
+- ✅ Hasil Eksperimen & Grafik
+- ✅ Tips Presentasi & Q&A dengan Dosen
+
+---
+
 ## 📋 Fitur Utama
 
 - ✅ **PID Controller Diskrit** dengan sampling time 200ms
