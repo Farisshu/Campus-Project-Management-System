@@ -1,0 +1,77 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-esp32:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install PlatformIO
+        run: |
+          pip install platformio
+      
+      - name: Build ESP32 Firmware
+        run: |
+          cd light_pid_simple
+          pio run
+      
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-bin
+          path: light_pid_simple/.pio/build/esp32dev/firmware.bin
+  
+  test-python-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Dependencies
+        run: |
+          pip install -r light_pid_simple/scripts/requirements.txt
+      
+      - name: Test Python Script with Sample Data
+        run: |
+          cd light_pid_simple
+          python scripts/test_with_sample_data.py
+      
+      - name: Verify Output Files
+        run: |
+          ls -la light_pid_simple/data/
+          test -f light_pid_simple/data/sample_output.png && echo "✓ Plot generated successfully"
+          test -f light_pid_simple/data/sample_data.csv && echo "✓ CSV data exists"
+  
+  validate-code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check File Structure
+        run: |
+          echo "Checking project structure..."
+          test -f light_pid_simple/src/main.cpp && echo "✓ main.cpp exists"
+          test -f light_pid_simple/scripts/plot_lux.py && echo "✓ plot_lux.py exists"
+          test -f light_pid_simple/platformio.ini && echo "✓ platformio.ini exists"
+          test -f light_pid_simple/README.md && echo "✓ README.md exists"
+          test -f light_pid_simple/scripts/requirements.txt && echo "✓ requirements.txt exists"
+      
+      - name: Validate CSV Format
+        run: |
+          cd light_pid_simple
+          python scripts/validate_csv.py
