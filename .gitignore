@@ -1,1 +1,43 @@
-Nothing should be ignored based on the provided file changes, as they only include source/config files (.md files) and no build artifacts, dependencies, or temp files.
+```
+# Dependencies
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Build artifacts
+build/
+dist/
+*.o
+*.obj
+*.so
+*.a
+*.dll
+*.exe
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db
+```
