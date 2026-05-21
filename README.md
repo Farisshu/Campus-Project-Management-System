@@ -11,10 +11,10 @@
 ## 🎓 Informasi Akademik
 
 - **Mata Kuliah**: Sistem Kendali Diskrit
-- **Mahasiswa**: [NAMA_ANDA] | [NIM_ANDA]
+- **Mahasiswa**: [NAMA_Kelompok] | [NIM_Kelompok]
 - **Jurusan**: Teknik Elektro, D-III, Politeknik Negeri Malang
-- **Semester**: [SEMESTER] | Tahun Akademik [TAHUN]
-- **Dosen Pengampu**: [NAMA_DOSEN]
+- **Semester**: [SEMESTER 4] | Tahun Akademik [2026]
+- **Dosen Pengampu**: [Bu Dinda]
 
 ---
 
